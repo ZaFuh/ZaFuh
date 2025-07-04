@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
 	output: 'static',
-	site: 'https://example.com',
+	site: 'https://zafuh.github.io/ZaFuh/',
+	base: '/ZaFuh/',
 	integrations: [mdx(), sitemap()],
 });
