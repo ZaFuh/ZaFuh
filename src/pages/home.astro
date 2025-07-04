@@ -1,0 +1,595 @@
+---
+
+---
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Zahra's Home</title>
+        <!-- Google Font -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Mono&display=swap"
+            rel="stylesheet"
+        />
+
+        <link
+            href="https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                display: block;
+                background: #fff;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+            }
+            .landing-row {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0;
+            }
+            .landing-text {
+                font-size: 4rem;
+                font-weight: bold;
+                text-align: center;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+                opacity: 0;
+                transform: translateY(40px);
+                animation: fadeInUp 1s cubic-bezier(0.5, 2, 0.6, 1) forwards;
+            }
+            .landing-text-left {
+                animation-delay: 0.1s;
+                margin-right: -3rem;
+            }
+            .landing-text-right {
+                animation-delay: 0.5s;
+                margin-left: -1.5rem;
+            }
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .drawing-img,
+            .landing-row img {
+                width: 180px;
+                height: 180px;
+                border: none;
+                box-shadow: none;
+                opacity: 0;
+                transform: scale(0.85);
+                animation: growIn 0.7s cubic-bezier(0.4, 2, 0.6, 1) forwards;
+                animation-delay: 0.3s;
+            }
+            @keyframes growIn {
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            .scrollbar-container.inactive .scrollbar-line,
+            .scrollbar-container.inactive .scrollbar-circle.inactive {
+                display: none;
+            }
+            .scrollbar-container {
+                position: fixed;
+                top: 50%;
+                right: 10rem;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 100;
+                pointer-events: none;
+                height: 170px; /* default full height */
+                transition: height 0.9s ease;
+            }
+
+            .scrollbar-container.inactive {
+                height: 40px; /* only enough for one circle */
+            }
+
+            .scrollbar-line {
+                width: 3px;
+                flex: 1;
+                background: rgb(233, 229, 244);
+                border-radius: 2px;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+            }
+
+            .scrollbar-circle {
+                width: 18px;
+                height: 18px;
+                background: rgb(233, 229, 244);
+                border: none;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                pointer-events: auto;
+                cursor: pointer;
+                z-index: 1;
+            }
+            .scrollbar-circle.active {
+                width: 24px;
+                height: 24px;
+                background: rgb(233, 229, 244);
+                position: relative;
+            }
+
+            .scrollbar-circle.active::before {
+                content: "";
+                position: absolute;
+                top: -7px; /* size of the gap */
+                left: -7px;
+                width: 32px; /* 24 + 4*2 */
+                height: 32px;
+                border: 3px solid rgb(233, 229, 244); /* outer ring */
+                border-radius: 50%;
+            }
+
+            .scrollbar-circle.inactive {
+            }
+            @media (max-width: 700px) {
+                .landing-row {
+                    flex-direction: column;
+                    gap: 1.5rem;
+                }
+                .landing-text {
+                    font-size: 2.5rem;
+                }
+                .drawing-img {
+                    width: 120px;
+                    height: 120px;
+                }
+                .scrollbar-container {
+                    display: none;
+                }
+            }
+
+            .projects-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 4rem 2rem;
+                background: #fff;
+            }
+
+            .projects-container {
+                max-width: 1000px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .projects-heading {
+                font-size: 3rem;
+                margin-bottom: 2rem;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+            }
+
+            .projects-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 2rem;
+            }
+
+            .project-card {
+                background: rgb(245, 245, 245);
+                padding: 2rem;
+                border-radius: 12px;
+                text-align: left;
+                transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+                font-family: "Fira Mono", monospace;
+            }
+
+            .project-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .project-card h3 {
+                margin: 0 0 0.5rem;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+                font-size: 1.5rem;
+            }
+
+            .project-card p {
+                margin: 0 0 1rem;
+                color: #555;
+                line-height: 1.5;
+            }
+
+            .project-link {
+                text-decoration: none;
+                font-weight: bold;
+                color: #333;
+                border-bottom: 1px solid #999;
+                transition:
+                    color 0.3s ease,
+                    border-color 0.3s ease;
+            }
+
+            .project-link:hover {
+                color: #000;
+                border-color: #000;
+            }
+
+            .blog-section {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 4rem 2rem;
+                background: #fafafa;
+            }
+
+            .blog-container {
+                max-width: 800px;
+                width: 100%;
+            }
+
+            .blog-heading {
+                font-size: 3rem;
+                margin-bottom: 2rem;
+                text-align: center;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+            }
+
+            .blog-list {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .blog-post {
+                background: #fff;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+                font-family: "Fira Mono", monospace;
+            }
+
+            .blog-post:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            }
+
+            .blog-post h3 {
+                margin: 0 0 0.5rem;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+                font-size: 1.75rem;
+            }
+
+            .blog-post time {
+                display: block;
+                font-size: 0.85rem;
+                color: #777;
+                margin-bottom: 0.75rem;
+            }
+
+            .blog-post p {
+                margin: 0 0 1rem;
+                color: #444;
+                line-height: 1.5;
+            }
+
+            .blog-link {
+                text-decoration: none;
+                font-weight: bold;
+                color: #333;
+                border-bottom: 1px solid #999;
+                transition:
+                    color 0.3s ease,
+                    border-color 0.3s ease;
+            }
+
+            .blog-link:hover {
+                color: #000;
+                border-color: #000;
+            }
+            .about-section {
+                min-height: 100vh;
+                padding: 4rem 2rem;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: "Fira Mono", monospace;
+            }
+
+            .about-container {
+                max-width: 900px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .about-heading {
+                font-family: "Londrina Sketch", cursive, sans-serif;
+                font-size: 3rem;
+                margin-bottom: 2rem;
+            }
+
+            .about-content {
+                display: flex;
+                gap: 2rem;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .about-image {
+                width: 250px;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 20px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                flex-shrink: 0;
+            }
+
+            .about-text {
+                max-width: 500px;
+                text-align: left;
+                color: #333;
+                font-size: 1.1rem;
+                line-height: 1.6;
+            }
+
+            .about-text p {
+                margin-bottom: 1.2rem;
+            }
+
+            @media (max-width: 700px) {
+                .about-content {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .about-text {
+                    max-width: 100%;
+                }
+            }
+
+            .hobbies-button {
+                margin-top: 1rem;
+                background-color: #e9e5f4;
+                border: none;
+                padding: 0.5rem 1.25rem;
+                border-radius: 8px;
+                cursor: pointer;
+                font-family: "Londrina Sketch", cursive, sans-serif;
+                font-size: 1.15rem;
+                color: #3a2e5b;
+                transition: background-color 0.3s ease;
+            }
+
+            .hobbies-button:hover,
+            .hobbies-button:focus {
+                background-color: #c9c3e8;
+                outline: none;
+            }
+
+            .hobbies-list {
+                margin-top: 1rem;
+                list-style-type: disc;
+                padding-left: 1.5rem;
+                font-family: "Fira Mono", monospace;
+                font-size: 1.05rem;
+                color: #555;
+                max-width: 300px;
+                text-align: left;
+            }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const circles = document.querySelectorAll(".scrollbar-circle");
+                const sections = document.querySelectorAll(".scroll-section");
+                const scrollbar = document.querySelector(
+                    ".scrollbar-container",
+                );
+                const toggleBtn = document.getElementById("hobbies-toggle");
+                const hobbiesList = document.getElementById("hobbies-list");
+
+                toggleBtn.addEventListener("click", () => {
+                    const isHidden = hobbiesList.hasAttribute("hidden");
+
+                    if (isHidden) {
+                        hobbiesList.removeAttribute("hidden");
+                        toggleBtn.textContent = "Hide Other Hobbies";
+                        toggleBtn.setAttribute("aria-expanded", "true");
+                    } else {
+                        hobbiesList.setAttribute("hidden", "");
+                        toggleBtn.textContent = "Show Other Hobbies";
+                        toggleBtn.setAttribute("aria-expanded", "false");
+                    }
+                });
+
+                let scrollTimeout;
+
+                function onScroll() {
+                    let activeIdx = 0;
+                    sections.forEach((section, idx) => {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top < window.innerHeight * 0.5) {
+                            activeIdx = idx;
+                        }
+                    });
+                    circles.forEach((circle, idx) => {
+                        if (idx === activeIdx) {
+                            circle.classList.add("active");
+                            circle.classList.remove("inactive");
+                        } else {
+                            circle.classList.remove("active");
+                            circle.classList.add("inactive");
+                        }
+                    });
+
+                    scrollbar.classList.remove("inactive"); // expand
+
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        scrollbar.classList.add("inactive"); // shrink after delay
+                    }, 700); // match this to your CSS transition (1s + slight buffer)
+                }
+
+                window.addEventListener("scroll", onScroll, { passive: true });
+                onScroll();
+
+                circles.forEach((circle, idx) => {
+                    circle.addEventListener("click", () => {
+                        sections[idx].scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                        });
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="scrollbar-container" aria-hidden="true">
+            <div class="scrollbar-circle active"></div>
+            <div class="scrollbar-line"></div>
+            <div class="scrollbar-circle inactive"></div>
+            <div class="scrollbar-line"></div>
+            <div class="scrollbar-circle inactive"></div>
+            <div class="scrollbar-line"></div>
+            <div class="scrollbar-circle inactive"></div>
+        </div>
+
+        <div
+            class="scroll-section"
+            style="display: flex; align-items: center; justify-content: center; min-height: 100vh;"
+        >
+            <div class="landing-row">
+                <span class="landing-text landing-text-left">Hi, I'm</span>
+                <img
+                    src="/flowerMan.png"
+                    alt="Flower Man"
+                    class="drawing-img"
+                    style="width: 37vw; height: 37vw; max-width: 590px; max-height: 590px;"
+                />
+                <span class="landing-text landing-text-right">Zahra</span>
+            </div>
+        </div>
+
+        <div class="scroll-section projects-section">
+            <div class="projects-container">
+                <h2 class="projects-heading">Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>Project One</h3>
+                        <p>coming soon >:D</p>
+                        <a href="#" class="project-link">View Project →</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Project Two</h3>
+                        <p>coming soon >:D</p>
+                        <a href="#" class="project-link">View Project →</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Project Three</h3>
+                        <p>coming soon >:D</p>
+                        <a href="#" class="project-link">View Project →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-section blog-section">
+            <div class="blog-container">
+                <h2 class="blog-heading">Blog</h2>
+                <div class="blog-list">
+                    <article class="blog-post">
+                        <h3>Blog 1 lah blah blah</h3>
+                        <time datetime="2025-06-01">June 1, 2025</time>
+                        <p>Coming Soon >:D</p>
+                        <a href="#" class="blog-link">Read More →</a>
+                    </article>
+                    <article class="blog-post">
+                        <h3>Blog 2 lah blah blah</h3>
+                        <time datetime="2025-05-15">May 15, 2025</time>
+                        <p>Coming Soon >:D</p>
+                        <a href="#" class="blog-link">Read More →</a>
+                    </article>
+                    <article class="blog-post">
+                        <h3>Blog 3 lah blah blah</h3>
+                        <time datetime="2025-04-28">April 28, 2025</time>
+                        <p>Coming Soon >:D</p>
+                        <a href="#" class="blog-link">Read More →</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <section class="about-section scroll-section" id="about">
+            <div class="about-container">
+                <h2 class="about-heading">About Me</h2>
+                <div class="about-content">
+                    <img
+                        src="/flowerMan.png"
+                        alt="Zahra Portrait"
+                        class="about-image"
+                    />
+                    <div class="about-text">
+                        <p>
+                            Hello! I'm Zahra, studing CS @ HWUD. Going to my 4th
+                            year in a bit. Idk what to specialise in...
+                        </p>
+                        <p>
+                            Outside of dumb CS you'll see me worrying about
+                            prospect in life, drawing, photographing sometimes
+                            and starting a compaltely new hobby outta hte blue
+                            and never go back to it after 5 days. And possibly
+                            reading a book. Idk why i bother.
+                        </p>
+                        <p>
+                            If you wanna discuss cool ideas or collab on
+                            something great together, shoot me an email at
+                            comingsoon@gmail.com
+                        </p>
+                        <button
+                            id="hobbies-toggle"
+                            class="hobbies-button"
+                            aria-expanded="false"
+                            aria-controls="hobbies-list"
+                        >
+                            Show Other Hobbies
+                        </button>
+
+                        <ul id="hobbies-list" class="hobbies-list" hidden>
+                            <li>Art</li>
+                            <li>Photography</li>
+                            <li>Random</li>
+                            <li>Notes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer
+            style="
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #000;
+  font-size: 0.9rem;
+    font-family: 'Fira Mono', monospace;
+font-weight:bold;
+  
+  background: #fff;
+"
+        >
+            &copy; 2025 ZaFuh44. All rights reserved.
+        </footer>
+    </body>
+</html>
